@@ -3,12 +3,10 @@ package com.rncamerakit.barcode
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import com.rncamerakit.R
-import kotlin.math.roundToInt
 
 class BarcodeFrame(context: Context) : View(context) {
     private var borderPaint: Paint = Paint()
@@ -30,13 +28,13 @@ class BarcodeFrame(context: Context) : View(context) {
         laserPaint.strokeWidth = STROKE_WIDTH.toFloat()
         overlayPaint = Paint()
         overlayPaint.color = Color.parseColor("#80000000")
-        mDrawable = resources.getDrawable(R.drawable.qr_scanner, null)
+        mDrawable = ContextCompat.getDrawable(context, R.drawable.qr_scanner)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val centerX = width / 2f
-        val centerY = height / 2.25f
+        val centerX = measuredWidth / 2f
+        val centerY = measuredHeight / 2.25f
 
         mDefaultFrame.left = centerX - RECTANGLE_WIDTH
         mDefaultFrame.top = centerY - RECTANGLE_HEIGHT
@@ -86,9 +84,9 @@ class BarcodeFrame(context: Context) : View(context) {
     }
 
     private fun drawBorder(canvas: Canvas) {
-        val drawable = resources.getDrawable(R.drawable.qr_scanner, null)
-        drawable.bounds = mRectFrame
-        drawable.draw(canvas)
+        val drawable = ContextCompat.getDrawable(context, R.drawable.qr_scanner)
+        drawable?.bounds = mRectFrame
+        drawable?.draw(canvas)
     }
 
     private fun drawLaser(canvas: Canvas, timeElapsed: Long) {

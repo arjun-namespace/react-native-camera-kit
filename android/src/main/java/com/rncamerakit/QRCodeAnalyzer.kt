@@ -15,7 +15,7 @@ class QRCodeAnalyzer(
     private val barcodeFrame: BarcodeFrame?,
     private val previewViewWidth: Float,
     private val previewViewHeight: Float,
-    private val onQRCodesDetected: (qrCodes: List<String>) -> Unit
+    private val onQRCodesDetected: (qrCodes: List<Barcode>) -> Unit
 ) : ImageAnalysis.Analyzer {
 
     private var scaleX = 1f
@@ -42,14 +42,14 @@ class QRCodeAnalyzer(
             val scanner = BarcodeScanning.getClient()
             scanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
-                    val strBarcodes = mutableListOf<String>()
+                    val strBarcodes = mutableListOf<Barcode>()
                     barcodes.forEach { barcode ->
                         barcode.boundingBox?.let { rect ->
                             if (barcodeFrame != null && barcodeFrame.isQRInsideFrame(
                                     adjustBoundingRect(rect)
                                 )
                             ) {
-                                strBarcodes.add(barcode.rawValue ?: return@forEach)
+                                strBarcodes.add(barcode ?: return@forEach)
                             }
                         }
                     }

@@ -316,7 +316,7 @@ class CKCamera(context: ThemedReactContext) : FrameLayout(context), LifecycleObs
                     onBarcodeRead(barcodes)
                 }
             }
-            imageAnalyzer.setAnalyzer(cameraExecutor, analyzer)
+            imageAnalyzer?.setAnalyzer(cameraExecutor, analyzer)
             useCases.add(imageAnalyzer)
         }
 
